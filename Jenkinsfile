@@ -7,7 +7,7 @@ pipeline {
       }
     stage("Build"){
       steps{
-        sh "npm install && npm Status"
+        sh "npm install"
       }
     }
     }

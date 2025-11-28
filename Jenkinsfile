@@ -12,8 +12,8 @@ pipeline {
       }
     }
     stage("Deploy"){
-      steps{
-        sh "docker stop $(docker ps |grep 3000 |awk  '{print$2}')"
+      steps{        
+        #sh "docker stop $(docker ps |grep 3000 |awk  '{print$2}')"
         sh "docker build -t project-api-express ."
         sh "docker run -d -p 3000:3000 project-api-express"
       }

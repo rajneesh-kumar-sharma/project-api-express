@@ -11,6 +11,12 @@ pipeline {
         sh "npm install"
       }
     }
-    
+    stage("Deploy"){
+      steps{
+        sh "docker build -t project-api-express ."
+        sh "docker run -d -p 3000:3000 project-api-express"
+      }
+
+    }
   }
 }

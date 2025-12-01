@@ -13,14 +13,17 @@ pipeline {
     }
     stage("Push to DockerHub"){
       steps{
-        sh "docker build -t coolrajnish/project-api-express ."
-        sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
-        sh "docker push coolrajnish/project-api-express"
+        withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"DOCKERHUB_PASSWORD",usernameVariable:"DOCKERHUB_USERNAME")]){
+        sh "docker build -t ${env.DOCKERHUB_USERNAME}/project-api-express ."
+        sh "docker login -u ${env.DOCKERHUB_USERNAME} -p ${env.DOCKERHUB_PASSWORD}"
+        sh "docker tag project-api-express ${env.DOCKERHUB_USERNAME}/project-api-express:latest"
+        sh "docker push ${env.DOCKERHUB_USERNAME}/project-api-express"
+        }
       }
     }
     stage("Deploy"){
       steps{              
-        sh "docker run -d -p 3000:3000 coolrajnish/project-api-express"
+        sh "docker run -d -p 3000:3000 ${env.DOCKERHUB_USERNAME}/project-api-express:latest"
       }
 
     }

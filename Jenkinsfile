@@ -23,7 +23,7 @@ pipeline {
     }
     stage("Deploy"){
       steps{              
-        sh "docker run -d -p 3000:3000 ${env.DOCKERHUB_USERNAME}/project-api-express:latest"
+        sh "docker run -d -p 3000:3000 coolrajnish/project-api-express:latest"
       }
 
     }

@@ -27,5 +27,19 @@ pipeline {
 
     }
   }
-}
+  }
+  post {
+    failure  {
+      emailext( to: 'coolrajnish.sharma@gmail.com',
+           subject: "Build Failed in Jenkins: ${currentBuild.fullDisplayName}",
+           body: """Hello Team,
+
+The build for job *${env.JOB_NAME}* failed.
+Check console output: ${env.BUILD_URL}console
+
+Regards,
+Jenkins
+"""
+      )
+  }
 }

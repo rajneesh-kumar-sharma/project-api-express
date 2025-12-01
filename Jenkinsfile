@@ -11,10 +11,16 @@ pipeline {
         sh "npm install"
       }
     }
+    stage("Push to DockerHub"){
+      steps{
+        sh "docker build -t coolrajnish/project-api-express ."
+        sh "echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin"
+        sh "docker push coolrajnish/project-api-express"
+      }
+    }
     stage("Deploy"){
-      steps{        
-        sh "docker build -t project-api-express ."
-        sh "docker run -d -p 3000:3000 project-api-express"
+      steps{              
+        sh "docker run -d -p 3000:3000 coolrajnish/project-api-express"
       }
 
     }

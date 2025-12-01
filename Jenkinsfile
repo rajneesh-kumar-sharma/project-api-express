@@ -22,10 +22,10 @@ pipeline {
       }
     }
     stage("Deploy"){
-      steps{              
-        sh "docker run -d -p 3000:3000 coolrajnish/project-api-express:latest"
-      }
+            steps{
+                sh "docker-compose down && docker-compose up -d"
 
     }
   }
+}
 }
